@@ -25,7 +25,7 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 export default function FileUploadComponent(props) {
-    const { open, fileUploadState, toastSuccess, toastError, userName } = props;
+    const { open, fileUploadState, toastSuccess, toastError, userName, imagesUpdated } = props;
 
     const [files, setFiles] = React.useState(null);
 
@@ -42,16 +42,18 @@ export default function FileUploadComponent(props) {
 
     async function upload() {
         try {
-            console.log(files)
             const formData = new FormData();
             formData.append("author", userName);
             formData.append("description", descriptionRef.current.value);
             formData.append("title", titleRef.current.value);
-            formData.append("image", files);
-            var config = { headers: {'Content-Type': 'multipart/form-data'} };
-    
-            const response = await postRequestWithConfig(Urls.imageServiceBaseUrl + Urls.imageBasePath + Urls.addImagePath,
-             formData, config)
+            formData.append("image", files[0]);
+
+            await postRequest(Urls.imageServiceBaseUrl + Urls.imageBasePath + Urls.addImagePath,
+                formData)
+
+            setFiles([]);
+
+            imagesUpdated();
 
             toastSuccess("Image Posted!");
             handleClose();
@@ -92,7 +94,7 @@ export default function FileUploadComponent(props) {
 
                 <FileUpload value={files} onChange={onFileSelected} />
             </div>
-            
+
 
             <div className='loginComp' >
 

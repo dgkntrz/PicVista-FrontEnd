@@ -34,6 +34,15 @@ export default function ImageScreen(props) {
 
     }, [page])
 
+    async function updateImages() {
+        const response = await getRequestWithConfig(Urls.imageServiceBaseUrl + Urls.imageBasePath + Urls.getImages,
+            { "page": page });
+
+        setImages(response.data.content);
+        setTotalPages(response.data.totalPages);
+        setTotalImages(response.data.totalElements);
+    }
+
     function fileUploadToggle() {
         setFileUploadVisible(!fileUploadVisible);
     }
@@ -147,8 +156,11 @@ export default function ImageScreen(props) {
                 </Grid>
 
                 {images.map((item) => {
+                    console.log(page)
+                    console.log(totalPages)
+                    console.log(totalImages)
                     return (
-                        <Grid item xs={page === totalPages-1? 15 / (totalImages % 3) : 5}>
+                        <Grid item xs={page === totalPages-1 && totalImages % 3 !== 0? 15 / (totalImages % 3) : 5}>
                             <Image title={item.title} description={item.description} author={item.author} uploadDate={item.uploadDate} image={item.image.data} />
                         </Grid>
                     )
@@ -178,7 +190,8 @@ export default function ImageScreen(props) {
                 <FileUploadComponent open={fileUploadVisible} fileUploadState={setFileUploadVisible}
                     toastSuccess={toastSuccess}
                     toastError={toastError}
-                    userName={userName} />
+                    userName={userName}
+                    imagesUpdated={updateImages} />
             </Grid>
         </Box>
     );
