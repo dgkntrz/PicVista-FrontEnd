@@ -10,7 +10,7 @@ import { getRequest, getRequestWithConfig } from '../utils/RequestBuilder';
 import * as Urls from '../utils/Urls';
 import Image from './Image/Image';
 import './ImageScreen.css';
-
+import Tooltip from '@mui/material/Tooltip';
 
 export default function ImageScreen(props) {
     const { toastSuccess, toastError, userName } = props;
@@ -60,7 +60,7 @@ export default function ImageScreen(props) {
         if (totalPages < 5){
             for (let i = 0; i < totalPages; i++){
                 pageNumbers.push(
-                    <Button variant={page === i ? 'contained' : 'outlined'} onClick={() => {
+                    <Button size='small' variant={page === i ? 'contained' : 'outlined'} onClick={() => {
                         setPage(i);
                     }}>{i+1}</Button>
                 )
@@ -68,41 +68,41 @@ export default function ImageScreen(props) {
         }
         else {
             pageNumbers.push(
-                <Button variant={page === 0 ? 'contained' : 'outlined'} onClick={() => {
+                <Button size='small' variant={page === 0 ? 'contained' : 'outlined'} onClick={() => {
                     setPage(0);
                 }}>1</Button>
             )
 
             if (page < 2) {
                 pageNumbers.push(
-                    <Button variant={page === 1 ? 'contained' : 'outlined'} onClick={() => {
+                    <Button size='small' variant={page === 1 ? 'contained' : 'outlined'} onClick={() => {
                         setPage(1);
                     }}>2</Button>
                 )
                 pageNumbers.push(
-                    <Button variant={page === 2 ? 'contained' : 'outlined'} onClick={() => {
+                    <Button size='small' variant={page === 2 ? 'contained' : 'outlined'} onClick={() => {
                         setPage(2);
                     }}>3</Button>
                 )
                 pageNumbers.push(
-                    <Button variant={page === 3 ? 'contained' : 'outlined'} onClick={() => {
+                    <Button size='small' variant={page === 3 ? 'contained' : 'outlined'} onClick={() => {
                         setPage(3);
                     }}>4</Button>
                 )
             }
             else if (page > totalPages - 3) {
                 pageNumbers.push(
-                    <Button variant={page === totalPages - 4  ? 'contained' : 'outlined'} onClick={() => {
+                    <Button size='small' variant={page === totalPages - 4  ? 'contained' : 'outlined'} onClick={() => {
                         setPage(totalPages - 4);
                     }}>{totalPages - 3}</Button>
                 )
                 pageNumbers.push(
-                    <Button variant={page === totalPages - 3  ? 'contained' : 'outlined'} onClick={() => {
+                    <Button size='small' variant={page === totalPages - 3  ? 'contained' : 'outlined'} onClick={() => {
                         setPage(totalPages - 3);
                     }}>{totalPages - 2}</Button>
                 )
                 pageNumbers.push(
-                    <Button variant={page === totalPages - 2  ? 'contained' : 'outlined'} onClick={() => {
+                    <Button size='small' variant={page === totalPages - 2  ? 'contained' : 'outlined'} onClick={() => {
                         setPage(totalPages - 2);
                     }}>{totalPages - 1}</Button>
                 )
@@ -110,17 +110,17 @@ export default function ImageScreen(props) {
             else {
                 const currentPage = page;
                 pageNumbers.push(
-                    <Button variant={currentPage === page - 1  ? 'contained' : 'outlined'} onClick={() => {
+                    <Button size='small' variant={currentPage === page - 1  ? 'contained' : 'outlined'} onClick={() => {
                         setPage(page - 1);
                     }}>{page}</Button>
                 )
                 pageNumbers.push(
-                    <Button variant={currentPage === page  ? 'contained' : 'outlined'} onClick={() => {
+                    <Button size='small'  variant={currentPage === page  ? 'contained' : 'outlined'} onClick={() => {
                         setPage(page);
                     }}>{page + 1}</Button>
                 )
                 pageNumbers.push(
-                    <Button variant={currentPage === page + 1  ? 'contained' : 'outlined'} onClick={() => {
+                    <Button size='small' variant={currentPage === page + 1  ? 'contained' : 'outlined'} onClick={() => {
                         setPage(page + 1);
                     }}>{page + 2}</Button>
                 )
@@ -131,7 +131,7 @@ export default function ImageScreen(props) {
            
 
             pageNumbers.push(
-                <Button variant={page === totalPages - 1  ? 'contained' : 'outlined'} onClick={() => {
+                <Button size='small' variant={page === totalPages - 1  ? 'contained' : 'outlined'} onClick={() => {
                     setPage(totalPages-1);
                 }}>{totalPages}</Button>
             )
@@ -145,20 +145,20 @@ export default function ImageScreen(props) {
                 <Grid item xs={32}>
 
                 </Grid>
-                {userName === "" ? <></> : <Grid item xs={1}>
-                    <IconButton onClick={fileUploadToggle} style={{ backgroundColor: "#1976d2" }} size='large'><Add fontSize='large' /></IconButton>
-                </Grid>}
+                <Grid item xs={1}>
+                    <Tooltip title="Upload Pictures">
+                        <IconButton disabled={userName === ""}  onClick={fileUploadToggle} style={{ backgroundColor: "#1976d2" }} size='large'><Add fontSize='large' /></IconButton>
+
+                    </Tooltip>
+                </Grid>
 
                 <Grid item xs={15} className='imageMainHeader'>
 
-                    Latest Images
+                    Image Repository
 
                 </Grid>
 
                 {images.map((item) => {
-                    console.log(page)
-                    console.log(totalPages)
-                    console.log(totalImages)
                     return (
                         <Grid item xs={page === totalPages-1 && totalImages % 3 !== 0? 15 / (totalImages % 3) : 5}>
                             <Image title={item.title} description={item.description} author={item.author} uploadDate={item.uploadDate} image={item.image.data} />

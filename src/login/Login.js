@@ -9,13 +9,19 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { postRequest } from '../utils/RequestBuilder';
 import * as Urls from '../utils/Urls';
-
+import Checkbox from '@mui/material/Checkbox';
 
 export default function Login(props) {
     const { onClose, open, openSignDialog, setUserName, toastSuccess, toastError } = props;
 
+    const [checked, setChecked] = React.useState(false);
     const [name, setName] = React.useState("");
     const [password, setPassword] = React.useState("");
+
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+    };
+
 
     const handleClose = () => {
         onClose();
@@ -30,17 +36,22 @@ export default function Login(props) {
     }
 
     async function login() {
-        try{
+        try {
             const response = await postRequest(Urls.loginServiceBaseURL + Urls.loginBasePath, { "userName": name, "password": password })
+            if (checked){
+                localStorage.setItem("userName", name);
+                localStorage.setItem("password", password);
+            }
+            
             setUserName(response.data);
             toastSuccess("Logged in successfully");
             handleClose();
-        } catch (ex){
+        } catch (ex) {
             toastError(ex.response.data);
         }
-        
-       
-        
+
+
+
     };
 
     return (
@@ -73,6 +84,17 @@ export default function Login(props) {
             <div className='loginComp'>
                 <a>Forgot Password?</a>
             </div>
+            <div className='loginComp'>
+                Remember?
+                <Checkbox
+                    checked={checked}
+                    onChange={handleChange}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
+            </div>
+
+
+
             <div className='loginComp' >
 
                 <Button onClick={login} variant="contained">

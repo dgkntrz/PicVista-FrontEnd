@@ -8,11 +8,8 @@ import { Person } from '@mui/icons-material';
 import './Header.css';
 
 export default function Header(props) {
-  const { loginDialogOpen, userName, leftNavBar, setLeftNavBarOpen } = props;
+  const { loginDialogOpen, userName , logOut} = props;
 
-  function openNavBar(){
-    setLeftNavBarOpen(!leftNavBar);
-  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -26,7 +23,7 @@ export default function Header(props) {
           </Typography>
           {userName === "" ? 
           <Button  color="inherit" onClick={loginDialogOpen}><div className='button'>Login</div></Button> :
-          <Button className='button' color="inherit" startIcon={<Person/>} onClick={loginDialogOpen}><div className='button'>{userName}</div></Button>}
+          <Button className='button' color="inherit" startIcon={<Person/>} onClick={logOut}><div className='button'>{userName}</div></Button>}
             
             
         </Toolbar>

@@ -11,9 +11,21 @@ import ImageScreen from './body/ImageScreen';
 function App() {
   const [loginDialogToggle, setLoginDialogToggle] = React.useState(false);
   const [signDialogToggle, setSignDialogToggle] = React.useState(false);
-  const [leftNavBarToggle, setLeftNavBarToggle] = React.useState(false);
   const [userName, setUserName] = React.useState("");
 
+  React.useEffect(() => {
+    if (localStorage.getItem("userName") && localStorage.getItem("userName") != "" && localStorage.getItem("userName") != null){
+       setUserName(localStorage.getItem("userName"));
+    }
+  }, []);
+  
+
+  const logOut = () => {
+    setUserName("");
+    showSuccessMessage("Logged out.")
+    localStorage.setItem("userName", "");
+    localStorage.setItem("password", "");
+  }
   
 
   const loginDialogOpen = () => {
@@ -45,7 +57,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header loginDialogOpen={loginDialogOpen} leftNavBar={leftNavBarToggle} setLeftNavBarOpen={setLeftNavBarToggle} userName={userName}/>
+      <Header loginDialogOpen={loginDialogOpen} userName={userName} logOut={logOut}/>
       <Login
         open={loginDialogToggle}
         openSignDialog={signDialogOpen}
