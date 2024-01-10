@@ -6,14 +6,14 @@ import Grid from '@mui/material/Grid';
 import { Button, IconButton } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import FileUploadComponent from '../fileupload/FileUpload';
-import { getRequest, getRequestWithConfig } from '../utils/RequestBuilder';
+import { deleteRequest, getRequest, getRequestWithConfig } from '../utils/RequestBuilder';
 import * as Urls from '../utils/Urls';
 import Image from './Image/Image';
 import './ImageScreen.css';
 import Tooltip from '@mui/material/Tooltip';
 
 export default function ImageScreen(props) {
-    const { toastSuccess, toastError, userName } = props;
+    const { toastSuccess, toastError, userName, singleRequest } = props;
 
     const [fileUploadVisible, setFileUploadVisible] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -23,7 +23,14 @@ export default function ImageScreen(props) {
 
     React.useEffect(() => {
         async function getImages() {
-            const response = await getRequestWithConfig(Urls.imageServiceBaseUrl + Urls.imageBasePath + Urls.getImages,
+            let url;
+            if (singleRequest){
+                url = Urls.imageServiceBaseUrl + Urls.imageBasePath + Urls.getImagesByAuthor + '/' + userName;
+            }
+            else{
+                url = Urls.imageServiceBaseUrl + Urls.imageBasePath + Urls.getImages;
+            }
+            const response = await getRequestWithConfig(url,
                 { "page": page });
 
             setImages(response.data.content);
@@ -36,6 +43,16 @@ export default function ImageScreen(props) {
 
     async function updateImages() {
         const response = await getRequestWithConfig(Urls.imageServiceBaseUrl + Urls.imageBasePath + Urls.getImages,
+            { "page": page });
+
+        setImages(response.data.content);
+        setTotalPages(response.data.totalPages);
+        setTotalImages(response.data.totalElements);
+    }
+
+    async function deleteImages(id) {
+        await deleteRequest(Urls.imageServiceBaseUrl + Urls.imageBasePath + Urls.deleteImages + '/' + id);
+        const response = await getRequestWithConfig(Urls.imageServiceBaseUrl + Urls.imageBasePath + Urls.getImagesByAuthor + '/' + userName,
             { "page": page });
 
         setImages(response.data.content);
@@ -145,7 +162,7 @@ export default function ImageScreen(props) {
                 <Grid item xs={32}>
 
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={1} style={singleRequest ? {visibility: "hidden"} : {}}>
                     <Tooltip title="Upload Pictures">
                         <IconButton disabled={userName === ""}  onClick={fileUploadToggle} style={{ backgroundColor: "#1976d2" }} size='large'><Add fontSize='large' /></IconButton>
 
@@ -153,15 +170,15 @@ export default function ImageScreen(props) {
                 </Grid>
 
                 <Grid item xs={15} className='imageMainHeader'>
-
-                    Image Repository
+                    {singleRequest ? "Your Images" : "Image Repository"}
 
                 </Grid>
 
                 {images.map((item) => {
                     return (
                         <Grid item xs={page === totalPages-1 && totalImages % 3 !== 0? 15 / (totalImages % 3) : 5}>
-                            <Image title={item.title} description={item.description} author={item.author} uploadDate={item.uploadDate} image={item.image.data} />
+                            <Image title={item.title} description={item.description} author={item.author} 
+                            uploadDate={item.uploadDate} id={item.imageId} image={item.image.data} deleteAble={singleRequest ? true: undefined} deleteImage={deleteImages}/>
                         </Grid>
                     )
 
@@ -182,7 +199,7 @@ export default function ImageScreen(props) {
 
                 <Grid item xs={5} style={{paddingTop: "3em"}}>
 
-                    <Button onClick={onNextPage} disabled={page === totalPages -1} variant='contained'>Next Page</Button>
+                    <Button onClick={onNextPage} disabled={page >= totalPages -1} variant='contained'>Next Page</Button>
 
                 </Grid>
 

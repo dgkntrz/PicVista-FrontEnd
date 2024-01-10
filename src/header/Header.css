@@ -1,8 +1,12 @@
 .header {
     font-family: 'Lemon', serif;
     text-align: left;
+    
 }
 
+.hover:hover {
+    cursor:pointer;
+}
 .button {
     font-family: 'Salsa', cursive;
 }

@@ -23,3 +23,21 @@ export async function getRequestWithConfig(url, config) {
     const response = request.then((response) => response);
     return response;
 }
+
+export async function deleteRequest(url) {
+    const request = axios.delete(url);
+    const response = request.then((response) => response);
+    return response;
+}
+
+export async function putRequest(url, body) {
+    const request = axios.put(url, body);
+    const response = request.then((response) => response);
+    return response;
+}
+
+export async function putWithParams(url, config) {
+    const request = axios.put(url, {params: config});
+    const response = request.then((response) => response);
+    return response;
+}

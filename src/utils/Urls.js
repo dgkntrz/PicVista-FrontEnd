@@ -9,3 +9,5 @@ export const imageServiceBaseUrl = "http://localhost:8092";
 export const imageBasePath = "/images";
 export const addImagePath = "/add";
 export const getImages = "/getAllImages";
+export const getImagesByAuthor = "/getImagesByAuthor";
+export const deleteImages = "/delete";

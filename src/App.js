@@ -7,26 +7,29 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Signup from './signup/Signup';
 import ImageScreen from './body/ImageScreen';
+import UserPanel from './userpanel/UserPanel';
 
 function App() {
   const [loginDialogToggle, setLoginDialogToggle] = React.useState(false);
   const [signDialogToggle, setSignDialogToggle] = React.useState(false);
   const [userName, setUserName] = React.useState("");
+  const [page, setPage] = React.useState("main");
 
   React.useEffect(() => {
-    if (localStorage.getItem("userName") && localStorage.getItem("userName") != "" && localStorage.getItem("userName") != null){
-       setUserName(localStorage.getItem("userName"));
+    if (localStorage.getItem("userName") && localStorage.getItem("userName") != "" && localStorage.getItem("userName") != null) {
+      setUserName(localStorage.getItem("userName"));
     }
   }, []);
-  
+
 
   const logOut = () => {
     setUserName("");
+    setPage("main");
     showSuccessMessage("Logged out.")
     localStorage.setItem("userName", "");
     localStorage.setItem("password", "");
   }
-  
+
 
   const loginDialogOpen = () => {
     setSignDialogToggle(false);
@@ -47,17 +50,17 @@ function App() {
   };
 
   const showSuccessMessage = (message) => {
-      toast.success(message, {position: toast.POSITION.TOP_RIGHT})
+    toast.success(message, { position: toast.POSITION.TOP_RIGHT })
   }
 
   const showErrorMessage = (message) => {
-    toast.error(message, {position: toast.POSITION.TOP_RIGHT})
-}
-  
+    toast.error(message, { position: toast.POSITION.TOP_RIGHT })
+  }
+
 
   return (
     <div className="App">
-      <Header loginDialogOpen={loginDialogOpen} userName={userName} logOut={logOut}/>
+      <Header loginDialogOpen={loginDialogOpen} userName={userName} logOut={logOut} setPage={setPage} />
       <Login
         open={loginDialogToggle}
         openSignDialog={signDialogOpen}
@@ -73,9 +76,23 @@ function App() {
         toastSuccess={showSuccessMessage}
         toastError={showErrorMessage}
       />
-      <ImageScreen toastSuccess={showSuccessMessage}
-        toastError={showErrorMessage}
-        userName={userName}/>
+      <div style={{paddingTop: "2em"}}>
+        {page === "main" ? (
+          <ImageScreen toastSuccess={showSuccessMessage}
+            toastError={showErrorMessage}
+            userName={userName} />
+        )
+          :
+          <UserPanel
+            toastSuccess={showSuccessMessage}
+            toastError={showErrorMessage}
+            userName={userName}
+            logOut={logOut}
+            setUserName={setUserName}
+          />
+        }
+      </div>
+
       <ToastContainer />
     </div>
   );
