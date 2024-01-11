@@ -35,7 +35,10 @@ export default function Footer() {
         setValue(newValue);
       }}
     >
-      <Button variant='primary' onClick={handleOpen}>Contact Me</Button>
+      <Button variant='outlined' style={{color: "white"}} onClick={handleOpen}>Contact Me</Button>
+      <Button variant='outlined' style={{color: "white"}} onClick={() => {
+        window.open("https://github.com/dgkntrz?tab=repositories", "_blank");
+      }}>Github Link</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -47,13 +50,13 @@ export default function Footer() {
             About me
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Thank you for visiting my website! I built this website to practice my skills with React, Spring Boot, MongoDB, Jenkins, Docker and Azure.
+            Thank you for visiting my website! I built this website to practice my skills with MongoDB, Jenkins, Docker and Azure.
           </Typography>
           <Typography id="modal-modal-title" sx={{mt: 2}} variant="h6" component="h2" style={{fontWeight: 'bold'}}>
             Contact me:
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Email: dogukanterzi@gmail.com
+            dogukanterzi@gmail.com
           </Typography>
 
         </Box>

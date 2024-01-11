@@ -7,22 +7,9 @@ import './FileUpload.css';
 import { DialogTitle } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { postRequest, postRequestWithConfig } from '../utils/RequestBuilder';
+import { postRequest,  } from '../utils/RequestBuilder';
 import * as Urls from '../utils/Urls';
-import { styled } from '@mui/material/styles';
 import FileUpload from 'react-material-file-upload';
-
-const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-});
 
 export default function FileUploadComponent(props) {
     const { open, fileUploadState, toastSuccess, toastError, userName, imagesUpdated } = props;

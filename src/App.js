@@ -5,10 +5,11 @@ import Footer from './footer/Footer'
 import * as React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import * as Urls from './utils/Urls';
 import Signup from './signup/Signup';
 import ImageScreen from './body/ImageScreen';
 import UserPanel from './userpanel/UserPanel';
+import { deleteRequest } from './utils/RequestBuilder';
 
 function App() {
   const [loginDialogToggle, setLoginDialogToggle] = React.useState(false);
@@ -27,6 +28,15 @@ function App() {
     setUserName("");
     setPage("main");
     showSuccessMessage("Logged out.")
+    localStorage.setItem("userName", "");
+    localStorage.setItem("password", "");
+  }
+
+  const deleteAccount = () => {
+    deleteRequest(Urls.loginServiceBaseURL + Urls.manageUserBasePath + '/' + userName);
+    setUserName("");
+    setPage("main");
+    showSuccessMessage("Deleted user.")
     localStorage.setItem("userName", "");
     localStorage.setItem("password", "");
   }
@@ -90,6 +100,7 @@ function App() {
             userName={userName}
             logOut={logOut}
             setUserName={setUserName}
+            deleteAccount={deleteAccount}
           />
         }
       </div>

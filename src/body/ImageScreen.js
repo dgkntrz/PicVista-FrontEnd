@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Button, IconButton } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import FileUploadComponent from '../fileupload/FileUpload';
-import { deleteRequest, getRequest, getRequestWithConfig } from '../utils/RequestBuilder';
+import { deleteRequest, getRequestWithConfig } from '../utils/RequestBuilder';
 import * as Urls from '../utils/Urls';
 import Image from './Image/Image';
 import './ImageScreen.css';
