@@ -12,7 +12,7 @@ export default function Image(props){
             <div>
                 Title: {title}
             </div>
-            <div>
+            <div style={deleteAble? {visibility: "hidden"}: {}}>
                 Author: {author}
             </div>
             <div>
