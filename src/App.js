@@ -1,6 +1,7 @@
 import './App.css';
 import Header from './header/Header';
 import Login from './login/Login';
+import Footer from './footer/Footer'
 import * as React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -92,6 +93,7 @@ function App() {
           />
         }
       </div>
+      <Footer/>
 
       <ToastContainer />
     </div>
