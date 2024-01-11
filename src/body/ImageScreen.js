@@ -55,6 +55,8 @@ export default function ImageScreen(props) {
         const response = await getRequestWithConfig(Urls.imageServiceBaseUrl + Urls.imageBasePath + Urls.getImagesByAuthor + '/' + userName,
             { "page": page });
 
+        toastSuccess("Image deleted.")
+
         setImages(response.data.content);
         setTotalPages(response.data.totalPages);
         setTotalImages(response.data.totalElements);

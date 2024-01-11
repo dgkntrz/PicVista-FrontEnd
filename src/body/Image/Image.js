@@ -1,9 +1,11 @@
 import { Button } from '@mui/material';
 import './Image.css';
+import * as React from 'react';
+import ImagePreview from './ImagePreview';
 
 export default function Image(props){
     const {title, description, author, uploadDate, id, image, deleteAble, deleteImage} = props;
-
+    const [open, setOpen] = React.useState(false);
 
     return (
         <div className='imageText'>
@@ -14,7 +16,9 @@ export default function Image(props){
                 Author: {author}
             </div>
             <div>
-                <img src={'data:image/jpeg;base64,' + image} style={{width: 200, height: 200}}></img>
+                <img className='hover' onClick={() => {
+                    setOpen(true);
+                }} src={'data:image/jpeg;base64,' + image} style={{width: 200, height: 200}}></img>
             </div>
             <div>
                 {uploadDate}
@@ -27,6 +31,7 @@ export default function Image(props){
                     deleteImage(id);
                 }}>Delete</Button>
                 </div> : <></>}
+            <ImagePreview setOpen={setOpen} open={open} image={image} title={title}/>
         </div>
     )
 

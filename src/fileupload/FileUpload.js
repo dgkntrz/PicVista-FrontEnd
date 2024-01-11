@@ -41,6 +41,14 @@ export default function FileUploadComponent(props) {
     }
 
     async function upload() {
+        if (titleRef.current.value.length < 3 || titleRef.current.value.length > 15){
+            toastError("Please enter a title with minimum length of 3, maximum length of 15");
+            return;
+        }
+        if (descriptionRef.current.value.length < 3 || descriptionRef.current.value.length > 40){
+            toastError("Please enter a description with minimum length of 5, maximum length of 40");
+            return;
+        }
         try {
             const formData = new FormData();
             formData.append("author", userName);

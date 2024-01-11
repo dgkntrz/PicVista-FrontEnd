@@ -1,3 +1,7 @@
 .imageText {
     font-family: 'Salsa', cursive;
 }
+
+.hover:hover {
+    cursor:pointer;
+}
